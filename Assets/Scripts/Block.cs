@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Block : MonoBehaviour
@@ -13,12 +11,12 @@ public class Block : MonoBehaviour
     public BlockColor color;
 
     private SpriteRenderer spriteRenderer;
-    private Rigidbody2D rigidbody;
+    private BoxCollider2D collider;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        rigidbody = GetComponent<Rigidbody2D>();
+        collider = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
@@ -26,8 +24,8 @@ public class Block : MonoBehaviour
         spriteRenderer.color = color == BlockColor.Blue ? Color.blue : Color.red;
     }
 
-    public void SetRigidyBodyKinematic(bool isTrue) 
+    public void SetCollider(bool isTrue) 
     {
-        rigidbody.isKinematic = isTrue;
+        collider.enabled = isTrue;
     }
 }

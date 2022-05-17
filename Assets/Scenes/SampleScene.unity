@@ -289,6 +289,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 332003903963556465, guid: 4e2e07dd9cf955d41928728e6a3fc107, type: 3}
+      propertyPath: m_Name
+      value: RedDestination
+      objectReference: {fileID: 0}
+    - target: {fileID: 702381620344576643, guid: 4e2e07dd9cf955d41928728e6a3fc107, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 1053970824989243478, guid: 4e2e07dd9cf955d41928728e6a3fc107, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -332,6 +340,14 @@ PrefabInstance:
     - target: {fileID: 1053970824989243478, guid: 4e2e07dd9cf955d41928728e6a3fc107, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1347126534294147121, guid: 4e2e07dd9cf955d41928728e6a3fc107, type: 3}
+      propertyPath: m_Name
+      value: BlueDestination
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942064897902795083, guid: 4e2e07dd9cf955d41928728e6a3fc107, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7212871082465992270, guid: 4e2e07dd9cf955d41928728e6a3fc107, type: 3}
       propertyPath: m_Name
@@ -442,25 +458,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6686155198844101281, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
-      propertyPath: m_Layer
-      value: 6
+    - target: {fileID: 6686155198844101284, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
+      propertyPath: color
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6686155199419731992, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
-      propertyPath: m_Layer
-      value: 6
+    - target: {fileID: 7360313981126176703, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6686155199487613745, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686155200860626302, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7868934687626980466, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
-      propertyPath: m_Layer
-      value: 6
+    - target: {fileID: 7868934687626980471, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
+      propertyPath: color
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7868934688537166566, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
       propertyPath: m_RootOrder
@@ -510,11 +518,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Block
       objectReference: {fileID: 0}
-    - target: {fileID: 7868934688537166567, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7360313981126176703, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
 --- !u!1001 &8095003283548270603
 PrefabInstance:
@@ -524,6 +529,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1697750817, guid: 56746ccc35c76bd40b0c4dbb06c1cfb1, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697750817, guid: 56746ccc35c76bd40b0c4dbb06c1cfb1, type: 3}
+      propertyPath: dropOffDistance
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697750817, guid: 56746ccc35c76bd40b0c4dbb06c1cfb1, type: 3}
       propertyPath: redBoxContainer
       value: 
       objectReference: {fileID: 737851724}
@@ -531,6 +544,10 @@ PrefabInstance:
       propertyPath: blueBoxContainer
       value: 
       objectReference: {fileID: 1902170859}
+    - target: {fileID: 1697750817, guid: 56746ccc35c76bd40b0c4dbb06c1cfb1, type: 3}
+      propertyPath: currentDestionation
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8095003281991036695, guid: 56746ccc35c76bd40b0c4dbb06c1cfb1, type: 3}
       propertyPath: m_Name
       value: AI
