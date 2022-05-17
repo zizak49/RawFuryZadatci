@@ -27,6 +27,9 @@ public class AI_movement : MonoBehaviour
 
     private Rigidbody2D rigidbody;
 
+    private bool leftClear = false;
+    private bool rightClear = false;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -48,9 +51,39 @@ public class AI_movement : MonoBehaviour
             if (state == AI_State.Carry)
             {
                 DropOffBox();
+                return;
             }
-        }
-       
+
+            // check from current position to red container
+            if (state == AI_State.Searching && currentDestionation == redBoxContainer)
+            {
+                leftClear = true;
+
+                if (leftClear && rightClear)
+                {
+                    Debug.Log("Done");
+                    Time.timeScale = 0;
+                }
+
+                SetDestination(blueBoxContainer);
+                return;
+            }
+
+            // check from current position to blue container
+            if (state == AI_State.Searching && currentDestionation == blueBoxContainer)
+            {
+                rightClear = true;
+
+                if (leftClear && rightClear)
+                {
+                    Debug.Log("Done");
+                    Time.timeScale = 0;
+                }
+
+                SetDestination(redBoxContainer);
+                return;
+            }
+        }   
     }
 
     private void PickUpBox(GameObject block) 
@@ -87,13 +120,9 @@ public class AI_movement : MonoBehaviour
             currentDestionation.transform.position.y + Random.Range(-0.5f, 0.5f));
 
         if (currentDestionation == redBoxContainer)
-        {
             SetDestination(blueBoxContainer);
-        }
         else
-        {
             SetDestination(redBoxContainer);
-        }
 
         ChangeState(AI_State.Searching);
     
@@ -102,14 +131,13 @@ public class AI_movement : MonoBehaviour
     private void ChangeState(AI_State newState) 
     {
         Debug.Log(newState);
-        state = newState;
+        state = newState; 
     }
 
     private void SetDestination(GameObject newDestination)  
     {
         lastDestionation = currentDestionation;
         currentDestionation = newDestination;
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

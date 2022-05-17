@@ -516,7 +516,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7868934688537166567, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
       propertyPath: m_Name
-      value: Block
+      value: Blocks
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7360313981126176703, guid: afca5acebc21bfe4c8b367df28e1e846, type: 3}
