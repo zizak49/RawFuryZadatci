@@ -14,12 +14,13 @@ public class GridManager : MonoBehaviour
     public TileTypePlacement placement = TileTypePlacement.Null;
 
     [SerializeField] private GameObject tilePrefab;
-    private GameObject[] grid;
-    [SerializeField] private int xSize;
-    [SerializeField] private int ySize;
+    public Tile[,] grid;
+    [SerializeField] public int xSize;
+    [SerializeField] public int ySize;
 
     private Tile startTile = null;
     private Tile endTile = null;
+    private Tile currentTile = null;
 
     [SerializeField] private Task2UI_Controller uiController;
 
@@ -40,18 +41,25 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
+        grid = new Tile[xSize,ySize];
         GenerateGrid(xSize, ySize);
     }
 
-    private void GenerateGrid(int x, int y) 
+    private void GenerateGrid(int xSize, int ySize) 
     {        
-        for (int i = 0; i < x; i++)
+        for (int x = 0; x < xSize; x++)
         {
-            for (int j = 0; j < y; j++)
+            for (int y = 0; y < ySize; y++)
             {
                 GameObject newTile = Instantiate(tilePrefab, new Vector2(0,0), Quaternion.identity, transform);
-                newTile.transform.position = new Vector2(i,j);
-                newTile.gameObject.name = "Tile: " + i + "|" + j;
+                newTile.transform.position = new Vector2(x,y);
+                newTile.gameObject.name = "Tile: " + x + "|" + y;
+
+                Tile tile = newTile.GetComponent<Tile>();
+                tile.posX = x;
+                tile.posY = y;
+
+                grid[x, y] = tile;
             }
         }      
     }
@@ -90,6 +98,35 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public void CalculatePath() 
+    {
+        float distance = Vector2.Distance(startTile.transform.position, endTile.transform.position);
+
+        Debug.Log(distance);
+
+        currentTile = startTile;
+
+        currentTile.visited = true;
+
+        currentTile.CheckNeighbours();
+        
+
+
+
+    }
+
+    private void CheckNeighbours(Tile currentTile) 
+    {
+        Tile top = grid[currentTile.posX, currentTile.posY + 1];
+        Tile right = grid[currentTile.posX + 1, currentTile.posY];
+        Tile bottom = grid[currentTile.posX, currentTile.posY - 1];
+        Tile left = grid[currentTile.posX - 1, currentTile.posY];
+
+        top.ColorVisited();
+        right.ColorVisited();
+        bottom.ColorVisited();
+        left.ColorVisited();
+    }
     /*private void GenerateBorder() 
     {
         for (int i = -1; i < xSize; i++)
@@ -114,3 +151,5 @@ public class GridManager : MonoBehaviour
 
     }*/
 }
+
+
