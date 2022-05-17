@@ -20,20 +20,38 @@ public class Tile : MonoBehaviour
 
     private void OnMouseOver()
     {
-        renderer.color = onMouseOver;
+        if (Input.GetMouseButton(0))
+        {
+            if (color == Color.white)
+            {
+                renderer.color = Color.black;
+                isWall = true;
+            }
+            else
+            {
+                renderer.color = Color.white;
+                isWall = false;
+            }
+        }
+
+        if (Input.GetMouseButton(1))
+        {
+            GridManager.Instance.SetStartEndTile(this);
+        }
     }
 
-    private void OnMouseDown()
+    public void ColorStart() 
     {
-        if (color == Color.white)
-        {
-            renderer.color = Color.black;
-            isWall = true;
-        }
-        else
-        {
-            renderer.color = Color.white;
-            isWall = false;
-        }
+        renderer.color = Color.green;
+    }
+
+    public void ColorEnd() 
+    {
+        renderer.color = Color.red;
+    }
+
+    public void ColorPath() 
+    {
+        renderer.color = Color.white;
     }
 }

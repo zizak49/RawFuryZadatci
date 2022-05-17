@@ -9,9 +9,27 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int xSize;
     [SerializeField] private int ySize;
 
+    public Tile startTile;
+    public Tile endTile;
+
+    private static GridManager _instance;
+    public static GridManager Instance { get { return _instance; } }
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
     private void Start()
     {
-        GenerateGrid(xSize, xSize);
+        GenerateGrid(xSize, ySize);
     }
 
     private void GenerateGrid(int x, int y) 
@@ -25,6 +43,23 @@ public class GridManager : MonoBehaviour
                 newTile.gameObject.name = "Tile: " + i + "|" + j;
             }
         }      
+    }
+
+    public void SetStartEndTile(Tile tile) 
+    {
+        if (startTile == null)
+        {
+            startTile = tile;
+            startTile.ColorStart();
+            return;
+        }
+
+        if (endTile == null)
+        {
+            endTile = tile;
+            endTile.ColorEnd();
+            return;
+        }
     }
 
     /*private void GenerateBorder() 
