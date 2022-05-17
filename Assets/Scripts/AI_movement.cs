@@ -30,6 +30,8 @@ public class AI_movement : MonoBehaviour
     private bool leftClear = false;
     private bool rightClear = false;
 
+    
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -59,11 +61,7 @@ public class AI_movement : MonoBehaviour
             {
                 leftClear = true;
 
-                if (leftClear && rightClear)
-                {
-                    Debug.Log("Done");
-                    Time.timeScale = 0;
-                }
+                CheckIfDone();
 
                 SetDestination(blueBoxContainer);
                 return;
@@ -74,11 +72,7 @@ public class AI_movement : MonoBehaviour
             {
                 rightClear = true;
 
-                if (leftClear && rightClear)
-                {
-                    Debug.Log("Done");
-                    Time.timeScale = 0;
-                }
+                CheckIfDone();
 
                 SetDestination(redBoxContainer);
                 return;
@@ -138,6 +132,16 @@ public class AI_movement : MonoBehaviour
     {
         lastDestionation = currentDestionation;
         currentDestionation = newDestination;
+    }
+
+    private void CheckIfDone() 
+    {
+        if (leftClear && rightClear)
+        {
+            Debug.Log("Done");
+            Task1UIController.Instance.ShowExitButton();
+            Time.timeScale = 0;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
