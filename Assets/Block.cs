@@ -23,15 +23,7 @@ public class Block : MonoBehaviour
 
     private void Start()
     {
-        if (color == BlockColor.Red)
-        {
-            spriteRenderer.color = Color.red;
-        }
-        else
-        {
-            spriteRenderer.color = Color.blue;
-
-        }
+        spriteRenderer.color = color == BlockColor.Blue ? Color.blue : Color.red;
     }
 
     public void SetRigidyBodyKinematic(bool isTrue) 

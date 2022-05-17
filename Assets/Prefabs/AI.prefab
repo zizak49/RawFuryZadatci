@@ -147,7 +147,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  destionation: {fileID: 0}
+  blueBoxContainer: {fileID: 0}
+  redBoxContainer: {fileID: 0}
+  currentDestionation: {fileID: 0}
   boxHolder: {fileID: 1911899660094066012}
 --- !u!1001 &693164684610504342
 PrefabInstance:
