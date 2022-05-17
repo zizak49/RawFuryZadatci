@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    public enum TileTypePlacement
+    {
+        Start,
+        End,
+        Null
+    }
+
+    public TileTypePlacement placement = TileTypePlacement.Null;
+
     [SerializeField] private GameObject tilePrefab;
     private GameObject[] grid;
     [SerializeField] private int xSize;
     [SerializeField] private int ySize;
 
-    public Tile startTile;
-    public Tile endTile;
+    private Tile startTile = null;
+    private Tile endTile = null;
+
+    [SerializeField] private Task2UI_Controller uiController;
 
     private static GridManager _instance;
     public static GridManager Instance { get { return _instance; } }
@@ -47,18 +58,35 @@ public class GridManager : MonoBehaviour
 
     public void SetStartEndTile(Tile tile) 
     {
-        if (startTile == null)
+        if (placement == TileTypePlacement.Start)
         {
+            if (startTile == null)
+            {
+                startTile = tile;
+                startTile.ColorStart();
+                return;
+            }
+            startTile.ColorPath();
             startTile = tile;
             startTile.ColorStart();
-            return;
         }
 
-        if (endTile == null)
+        if (placement == TileTypePlacement.End) 
         {
+            if (endTile == null)
+            {
+                endTile = tile;
+                endTile.ColorEnd();
+                return;
+            }
+            endTile.ColorPath();
             endTile = tile;
             endTile.ColorEnd();
-            return;
+        }
+
+        if (startTile != null && endTile != null)
+        {
+            uiController.EnableFindPathButton();
         }
     }
 
