@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8095003281991036692}
   - component: {fileID: 8095003281991036693}
   - component: {fileID: 8095003281991036694}
+  - component: {fileID: 1697750817}
   m_Layer: 3
   m_Name: AI
   m_TagString: Untagged
@@ -133,6 +134,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &1697750817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8095003281991036695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e134941c5269e14fb941e446f8caa29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  destionation: {fileID: 0}
+  boxHolder: {fileID: 1911899660094066012}
 --- !u!1001 &693164684610504342
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -190,6 +206,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cd94d286dc7d364c9862878c9f07f53, type: 3}
+--- !u!1 &1911899660094066012 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1375553951274290122, guid: 8cd94d286dc7d364c9862878c9f07f53, type: 3}
+  m_PrefabInstance: {fileID: 693164684610504342}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &166746319137876613 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 850893904157813779, guid: 8cd94d286dc7d364c9862878c9f07f53, type: 3}

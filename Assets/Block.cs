@@ -13,10 +13,12 @@ public class Block : MonoBehaviour
     public BlockColor color;
 
     private SpriteRenderer spriteRenderer;
+    private Rigidbody2D rigidbody;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        rigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -30,5 +32,10 @@ public class Block : MonoBehaviour
             spriteRenderer.color = Color.blue;
 
         }
+    }
+
+    public void SetRigidyBodyKinematic(bool isTrue) 
+    {
+        rigidbody.isKinematic = isTrue;
     }
 }
