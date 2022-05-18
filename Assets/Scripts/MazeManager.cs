@@ -11,19 +11,21 @@ public class MazeManager : MonoBehaviour
 
     public TileTypePlacement placement = TileTypePlacement.Null;
 
-    [SerializeField] private int _xSize, _ySize;
+    private int _xSize = 100;
+    private int _ySize = 100;
 
     private Tile[,] _maze;
-    private Tile startTile = null;
-    private Tile endTile = null;
+    private Tile _startTile = null;
+    private Tile _endTile = null;
 
-    private bool useDiagonal = false;
+    private bool _useDiagonal = false;
 
-    [SerializeField] private GameObject tilePrefab;
-    [SerializeField] private Task2UIController uiController;
+    [SerializeField] private GameObject _tilePrefab;
+    [SerializeField] private Task2UIController _uiController;
 
     public int XSize { get => _xSize; set => _xSize = value; }
     public int YSize { get => _ySize; set => _ySize = value; }
+    public bool UseDiagonal { get => _useDiagonal; set => _useDiagonal = value; }
 
     public void GenerateMaze()
     {
@@ -33,7 +35,7 @@ public class MazeManager : MonoBehaviour
         {
             for (int y = 0; y < _ySize; y++)
             {
-                GameObject newTile = Instantiate(tilePrefab, new Vector2(0, 0), Quaternion.identity, transform);
+                GameObject newTile = Instantiate(_tilePrefab, new Vector2(0, 0), Quaternion.identity, transform);
                 newTile.transform.position = new Vector2(x, y);
                 newTile.gameObject.name = "Tile: " + x + "|" + y;
 
@@ -50,40 +52,40 @@ public class MazeManager : MonoBehaviour
     public void CalculatePath()
     {
         Pathfinding pathfinding = new Pathfinding();
-        pathfinding.FindPath(startTile, endTile);
+        pathfinding.FindPath(_startTile, _endTile);
     }
 
     public void SetStartEndTile(Tile tile)
     {
         if (placement == TileTypePlacement.Start)
         {
-            if (startTile == null)
+            if (_startTile == null)
             {
-                startTile = tile;
-                startTile.ColorStart();
+                _startTile = tile;
+                _startTile.ColorStart();
                 return;
             }
-            startTile.ColorPath();
-            startTile = tile;
-            startTile.ColorStart();
+            _startTile.ColorPath();
+            _startTile = tile;
+            _startTile.ColorStart();
         }
 
         if (placement == TileTypePlacement.End)
         {
-            if (endTile == null)
+            if (_endTile == null)
             {
-                endTile = tile;
-                endTile.ColorEnd();
+                _endTile = tile;
+                _endTile.ColorEnd();
                 return;
             }
-            endTile.ColorPath();
-            endTile = tile;
-            endTile.ColorEnd();
+            _endTile.ColorPath();
+            _endTile = tile;
+            _endTile.ColorEnd();
         }
 
-        if (startTile != null && endTile != null)
+        if (_startTile != null && _endTile != null)
         {
-            uiController.EnableFindPathButton();
+            _uiController.EnableFindPathButton();
         }
     }
 
@@ -122,7 +124,7 @@ public class MazeManager : MonoBehaviour
                 if (IsValidTile(x - 1, y))
                     tile.Neighbours.Add(_maze[tile.PosX - 1, tile.PosY]);
 
-                if (useDiagonal)
+                if (UseDiagonal)
                 {
                     // Top right
                     if (IsValidTile(x + 1, y + 1))
@@ -141,7 +143,10 @@ public class MazeManager : MonoBehaviour
         }
     }
 
-    public Tile[,] GetMaze() { return _maze; }
+    public Tile[,] GetMaze() 
+    {
+        return _maze;
+    }
 }
 
 

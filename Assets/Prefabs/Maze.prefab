@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5293268075385512746}
   - component: {fileID: 156129867797655020}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: Maze
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,6 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94edaa1ed6bd7914fa6ce5670de1e268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 7633480205265685261, guid: 6077b21bc14c6fc4ab4b2cce4b3e0a14, type: 3}
-  xSize: 100
-  ySize: 100
+  placement: 2
+  _xSize: 0
+  _ySize: 0
+  _tilePrefab: {fileID: 7633480205265685261, guid: 6077b21bc14c6fc4ab4b2cce4b3e0a14, type: 3}
+  _uiController: {fileID: 0}

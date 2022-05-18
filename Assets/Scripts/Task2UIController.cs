@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class Task2UIController : MonoBehaviour
@@ -11,6 +12,14 @@ public class Task2UIController : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI inputX;
     [SerializeField] private TextMeshProUGUI inputY;
+
+
+    [SerializeField] private Image diagonalIndicator;
+
+    void Start() 
+    {
+        diagonalIndicator.color = mazeManager.UseDiagonal ? Color.green : Color.red;
+    }
 
     public void EnableFindPathButton() 
     {
@@ -63,5 +72,19 @@ public class Task2UIController : MonoBehaviour
         Debug.Log("Create maze...");
         mazeControlls.SetActive(false);
         mazeManager.GenerateMaze();
+    }
+
+    public void OnClickUseDiagonal()
+    {
+        if (mazeManager.UseDiagonal)
+        {
+            mazeManager.UseDiagonal = false;
+            diagonalIndicator.color = Color.red;
+        }
+        else
+        {
+            mazeManager.UseDiagonal = true;
+            diagonalIndicator.color = Color.green;
+        }
     }
 }
