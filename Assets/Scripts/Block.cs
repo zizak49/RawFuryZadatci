@@ -11,7 +11,7 @@ public class Block : MonoBehaviour
     public BlockColor color;
 
     private SpriteRenderer spriteRenderer;
-    private BoxCollider2D collider;
+    private new BoxCollider2D collider;
 
     private void Awake()
     {

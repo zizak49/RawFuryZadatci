@@ -18,6 +18,8 @@ public class MazeManager : MonoBehaviour
     private Tile startTile = null;
     private Tile endTile = null;
 
+    private bool useDiagonal = false;
+
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private Task2UI_Controller uiController;
 
@@ -42,8 +44,8 @@ public class MazeManager : MonoBehaviour
                 tile.posY = y;
 
                 _maze[x, y] = tile;
-                
-                //
+
+                GetTileNeighbours(tile);
             }
         }
     }
@@ -87,31 +89,52 @@ public class MazeManager : MonoBehaviour
             uiController.EnableFindPathButton();
         }
     }
-    
-    public List<Tile> GetTileNeighbours(Tile tile)
+
+    // Returnes true if tile is in bodred of maze and not a wall
+    private bool IsValidTile(Tile tile) 
     {
-        List<Tile> neighbours = new List<Tile>();
+        if (tile.isWall)
+            return false;
 
-        for (int x = -1; x <= 1; x++)
+        if (tile.posX >= 0 && tile.posX < _xSize && tile.posY >= 0 && tile.posY + 1 < _ySize)
+            return true;
+
+        return false;
+    }
+    
+    public void GetTileNeighbours(Tile tile)
+    {
+        // Top
+        if (IsValidTile(_maze[tile.posX,tile.posY + 1]))
+            tile.neigbors.Add(_maze[tile.posX, tile.posY + 1]);
+        // Bottom
+        if (IsValidTile(_maze[tile.posX, tile.posY - 1]))
+            tile.neigbors.Add(_maze[tile.posX, tile.posY - 1]);
+        // Right
+        if (IsValidTile(_maze[tile.posX + 1, tile.posY]))
+            tile.neigbors.Add(_maze[tile.posX + 1, tile.posY]);
+        // Left
+        if (IsValidTile(_maze[tile.posX - 1, tile.posY]))
+            tile.neigbors.Add(_maze[tile.posX - 1, tile.posY]);
+
+        if (useDiagonal)
         {
-            for (int y = -1; y <= 1; y++)
-            {
-                if (x == 0 && y == 0)
-                    continue;
-
-                int checkX = tile.posX + x;
-                int checkY = tile.posY + y;
-
-                if (checkX >= 0 && checkX < _xSize && checkY >= 0 && checkY < _ySize)
-                {
-                    neighbours.Add(_maze[checkX, checkY]);
-                }
-            }
-        }        
-        return neighbours;
+            // Top right
+            if (IsValidTile(_maze[tile.posX + 1, tile.posY + 1]))
+                tile.neigbors.Add(_maze[tile.posX + 1, tile.posY + 1]);
+            // Top left
+            if (IsValidTile(_maze[tile.posX - 1, tile.posY + 1]))
+                tile.neigbors.Add(_maze[tile.posX - 1, tile.posY + 1]);
+            // Bottom right
+            if (IsValidTile(_maze[tile.posX - 1, tile.posY - 1]))
+                tile.neigbors.Add(_maze[tile.posX - 1, tile.posY - 1]);
+            // Bottom left
+            if (IsValidTile(_maze[tile.posX + 1, tile.posY - 1]))
+                tile.neigbors.Add(_maze[tile.posX + 1, tile.posY - 1]);
+        }
     }
 
-    public Tile[,] GetMaze() { return maze; }
+    public Tile[,] GetMaze() { return _maze; }
 }
 
 
