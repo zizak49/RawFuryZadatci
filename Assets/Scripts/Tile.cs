@@ -46,6 +46,7 @@ public class Tile : MonoBehaviour
             {
                 _renderer.color = Color.black;
                 IsWall = true;
+                UpdateNeighbours();
             }
             else
             {
@@ -60,23 +61,37 @@ public class Tile : MonoBehaviour
         }
     }
 
+    private void UpdateNeighbours() 
+    {
+        if (_isWall)
+        {
+            foreach (Tile item in _neighbours)
+            {
+                if (item.Neighbours.Contains(this))
+                {
+                    item.Neighbours.Remove(this);
+                }
+            }
+        }
+    }
+
     public void ColorStart() 
     {
-        renderer.color = Color.green;
+        _renderer.color = Color.green;
     }
 
     public void ColorEnd() 
     {
-        renderer.color = Color.red;
+        _renderer.color = Color.red;
     }
 
     public void ColorPath() 
     {
-        renderer.color = Color.white;
+        _renderer.color = Color.white;
     }
 
     public void ColorVisited() 
     {
-        renderer.color = Color.yellow; 
+        _renderer.color = Color.yellow; 
     }
 }

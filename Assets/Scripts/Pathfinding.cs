@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,9 +31,9 @@ public class Pathfinding : MonoBehaviour
 				return;
 			}
 
-			foreach (Tile neighbour in MazeManager.Instance.GetTileNeighbours(currentTile))
+			foreach (Tile neighbour in currentTile.Neighbours)
 			{
-				if (neighbour.IsWall || closedSet.Contains(neighbour))
+				if (closedSet.Contains(neighbour))
 				{
 					continue;
 				}

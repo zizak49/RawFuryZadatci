@@ -397,6 +397,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5038029729604475156, guid: 04028fcb78e81e847b2f328bed3a9394, type: 3}
+      propertyPath: mazeManager
+      value: 
+      objectReference: {fileID: 5697724437735285381}
     - target: {fileID: 5038029729919538280, guid: 04028fcb78e81e847b2f328bed3a9394, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -496,3 +500,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75f8cd6e379d6c14888f27b4183ee563, type: 3}
+--- !u!114 &5697724437735285381 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 156129867797655020, guid: 75f8cd6e379d6c14888f27b4183ee563, type: 3}
+  m_PrefabInstance: {fileID: 5697724437735285380}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94edaa1ed6bd7914fa6ce5670de1e268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
