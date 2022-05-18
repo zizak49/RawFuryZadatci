@@ -20,19 +20,18 @@ public class MazeManager : MonoBehaviour
     private bool useDiagonal = false;
 
     [SerializeField] private GameObject tilePrefab;
-    [SerializeField] private Task2UI_Controller uiController;
+    [SerializeField] private Task2UIController uiController;
 
-    private void Start()
+    public int XSize { get => _xSize; set => _xSize = value; }
+    public int YSize { get => _ySize; set => _ySize = value; }
+
+    public void GenerateMaze()
     {
         _maze = new Tile[_xSize, _ySize];
-        GenerateGrid(_xSize, _ySize);
-    }
 
-    private void GenerateGrid(int xSize, int ySize)
-    {
-        for (int x = 0; x < xSize; x++)
+        for (int x = 0; x < _xSize; x++)
         {
-            for (int y = 0; y < ySize; y++)
+            for (int y = 0; y < _ySize; y++)
             {
                 GameObject newTile = Instantiate(tilePrefab, new Vector2(0, 0), Quaternion.identity, transform);
                 newTile.transform.position = new Vector2(x, y);
@@ -91,7 +90,7 @@ public class MazeManager : MonoBehaviour
     // Returnes true if tile is in bodred of maze and not a wall
     private bool IsValidTile(int x, int y) 
     {
-        if (x >= 0 && x < _xSize && y >= 0 && y < _ySize) 
+        if (x >= 0 && x < XSize && y >= 0 && y < YSize) 
         {
             if (_maze[x,y].IsWall)
                 return false;
@@ -104,9 +103,9 @@ public class MazeManager : MonoBehaviour
     // probaj maknut ifove
     public void GetTileNeighbours()
     {
-        for (int x = 0; x < _xSize; x++)
+        for (int x = 0; x < XSize; x++)
         {
-            for (int y = 0; y < _ySize; y++)
+            for (int y = 0; y < YSize; y++)
             {
                 Tile tile = _maze[x,y];
 
