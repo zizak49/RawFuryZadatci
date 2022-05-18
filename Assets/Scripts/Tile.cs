@@ -3,8 +3,19 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public bool visited = false;
     public bool isWall = false;
+
+    public int gCost; 
+    public int hCost; 
+    public int fCost 
+    {
+        get 
+        { 
+            return gCost + hCost; 
+        }
+    }
+
+    public Tile parent;
 
     public int posX;
     public int posY;
@@ -25,7 +36,8 @@ public class Tile : MonoBehaviour
         color = renderer.color;
         neigbors = new List<Tile>();
     }
-    public void CheckNeighbours()
+
+    /*public void CheckNeighbours()
     {
         Tile[,] grid = GridManager.Instance.grid;
         int x = GridManager.Instance.xSize;
@@ -68,7 +80,7 @@ public class Tile : MonoBehaviour
                 neigbors.Add(left);
             }
         }
-    }
+    }*/
 
     private void OnMouseOver()
     {
@@ -107,5 +119,8 @@ public class Tile : MonoBehaviour
         renderer.color = Color.white;
     }
 
-    public void ColorVisited() { renderer.color = Color.yellow; }
+    public void ColorVisited() 
+    {
+        renderer.color = Color.yellow; 
+    }
 }
