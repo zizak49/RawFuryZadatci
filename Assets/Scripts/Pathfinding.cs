@@ -64,6 +64,9 @@ public class Pathfinding : MonoBehaviour
 			currentNode = currentNode.Parent;
 		}
 		path.Reverse();
+
+		path[0].ColorStart();
+		path[path.Count - 1].ColorEnd();
 	}
 	//get mathatan dis
 	int GetDistance(Tile tileA, Tile tileB)
