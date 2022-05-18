@@ -16,9 +16,9 @@ public class Pathfinding : MonoBehaviour
 
 			for (int i = 1; i < openSet.Count; i++)
 			{
-				if (openSet[i].fCost < currentTile.fCost || openSet[i].fCost == currentTile.fCost)
+				if (openSet[i].FCost < currentTile.FCost || openSet[i].FCost == currentTile.FCost)
 				{
-					if (openSet[i].hCost < currentTile.hCost)
+					if (openSet[i].HCost < currentTile.HCost)
 						currentTile = openSet[i];
 				}
 			}
@@ -34,17 +34,17 @@ public class Pathfinding : MonoBehaviour
 
 			foreach (Tile neighbour in MazeManager.Instance.GetTileNeighbours(currentTile))
 			{
-				if (neighbour.isWall || closedSet.Contains(neighbour))
+				if (neighbour.IsWall || closedSet.Contains(neighbour))
 				{
 					continue;
 				}
 
-				int newCostToNeighbour = currentTile.gCost + GetDistance(currentTile, neighbour);
-				if (newCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
+				int newCostToNeighbour = currentTile.GCost + GetDistance(currentTile, neighbour);
+				if (newCostToNeighbour < neighbour.GCost || !openSet.Contains(neighbour))
 				{
-					neighbour.gCost = newCostToNeighbour;
-					neighbour.hCost = GetDistance(neighbour, target);
-					neighbour.parent = currentTile;
+					neighbour.GCost = newCostToNeighbour;
+					neighbour.HCost = GetDistance(neighbour, target);
+					neighbour.Parent = currentTile;
 
 					if (!openSet.Contains(neighbour))
 						openSet.Add(neighbour);
@@ -62,15 +62,15 @@ public class Pathfinding : MonoBehaviour
 		{
 			path.Add(currentNode);
 			currentNode.ColorVisited();
-			currentNode = currentNode.parent;
+			currentNode = currentNode.Parent;
 		}
 		path.Reverse();
 	}
 	//get mathatan dis
 	int GetDistance(Tile tileA, Tile tileB)
 	{
-		int dstX = Mathf.Abs(tileA.posX - tileB.posX);
-		int dstY = Mathf.Abs(tileA.posY - tileB.posY);
+		int dstX = Mathf.Abs(tileA.PosX - tileB.PosX);
+		int dstY = Mathf.Abs(tileA.PosY - tileB.PosY);
 
 		if (dstX > dstY)
 			return 14 * dstY + 10 * (dstX - dstY);

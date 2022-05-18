@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MazeManager : MonoBehaviour
@@ -40,8 +39,8 @@ public class MazeManager : MonoBehaviour
                 newTile.gameObject.name = "Tile: " + x + "|" + y;
 
                 Tile tile = newTile.GetComponent<Tile>();
-                tile.posX = x;
-                tile.posY = y;
+                tile.PosX = x;
+                tile.PosY = y;
 
                 _maze[x, y] = tile;
 
@@ -93,44 +92,45 @@ public class MazeManager : MonoBehaviour
     // Returnes true if tile is in bodred of maze and not a wall
     private bool IsValidTile(Tile tile) 
     {
-        if (tile.isWall)
+        if (tile.IsWall)
             return false;
 
-        if (tile.posX >= 0 && tile.posX < _xSize && tile.posY >= 0 && tile.posY + 1 < _ySize)
+        if (tile.PosX >= 0 && tile.PosX < _xSize && tile.PosY >= 0 && tile.PosY + 1 < _ySize)
             return true;
 
         return false;
     }
     
+    // probaj maknut ifove
     public void GetTileNeighbours(Tile tile)
     {
         // Top
-        if (IsValidTile(_maze[tile.posX,tile.posY + 1]))
-            tile.neigbors.Add(_maze[tile.posX, tile.posY + 1]);
+        if (IsValidTile(_maze[tile.PosX,tile.PosY + 1]))
+            tile.Neighbours.Add(_maze[tile.PosX, tile.PosY + 1]);
         // Bottom
-        if (IsValidTile(_maze[tile.posX, tile.posY - 1]))
-            tile.neigbors.Add(_maze[tile.posX, tile.posY - 1]);
+        if (IsValidTile(_maze[tile.PosX, tile.PosY - 1]))
+            tile.Neighbours.Add(_maze[tile.PosX, tile.PosY - 1]);
         // Right
-        if (IsValidTile(_maze[tile.posX + 1, tile.posY]))
-            tile.neigbors.Add(_maze[tile.posX + 1, tile.posY]);
+        if (IsValidTile(_maze[tile.PosX + 1, tile.PosY]))
+            tile.Neighbours.Add(_maze[tile.PosX + 1, tile.PosY]);
         // Left
-        if (IsValidTile(_maze[tile.posX - 1, tile.posY]))
-            tile.neigbors.Add(_maze[tile.posX - 1, tile.posY]);
+        if (IsValidTile(_maze[tile.PosX - 1, tile.PosY]))
+            tile.Neighbours.Add(_maze[tile.PosX - 1, tile.PosY]);
 
         if (useDiagonal)
         {
             // Top right
-            if (IsValidTile(_maze[tile.posX + 1, tile.posY + 1]))
-                tile.neigbors.Add(_maze[tile.posX + 1, tile.posY + 1]);
+            if (IsValidTile(_maze[tile.PosX + 1, tile.PosY + 1]))
+                tile.Neighbours.Add(_maze[tile.PosX + 1, tile.PosY + 1]);
             // Top left
-            if (IsValidTile(_maze[tile.posX - 1, tile.posY + 1]))
-                tile.neigbors.Add(_maze[tile.posX - 1, tile.posY + 1]);
+            if (IsValidTile(_maze[tile.PosX - 1, tile.PosY + 1]))
+                tile.Neighbours.Add(_maze[tile.PosX - 1, tile.PosY + 1]);
             // Bottom right
-            if (IsValidTile(_maze[tile.posX - 1, tile.posY - 1]))
-                tile.neigbors.Add(_maze[tile.posX - 1, tile.posY - 1]);
+            if (IsValidTile(_maze[tile.PosX - 1, tile.PosY - 1]))
+                tile.Neighbours.Add(_maze[tile.PosX - 1, tile.PosY - 1]);
             // Bottom left
-            if (IsValidTile(_maze[tile.posX + 1, tile.posY - 1]))
-                tile.neigbors.Add(_maze[tile.posX + 1, tile.posY - 1]);
+            if (IsValidTile(_maze[tile.PosX + 1, tile.PosY - 1]))
+                tile.Neighbours.Add(_maze[tile.PosX + 1, tile.PosY - 1]);
         }
     }
 

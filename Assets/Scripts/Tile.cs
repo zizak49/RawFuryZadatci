@@ -3,61 +3,60 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public bool isWall = false;
+    private bool _isWall = false;
 
-    public int gCost; 
-    public int hCost; 
-    public int fCost 
-    {
-        get 
-        { 
-            return gCost + hCost; 
-        }
-    }
+    private int _gCost; 
+    private int _hCost;
+    private int _fCost;
 
-    public List<Tile> neighbours = new List<Tile>();
+    private int _posX;
+    private int _posY;
 
-    public Tile parent;
+    private List<Tile> _neighbours = new List<Tile>();
+    private Tile _parent;
 
-    public int posX;
-    public int posY;
+    public bool IsWall { get => _isWall; set => _isWall = value; }
+    public int PosX { get => _posX; set => _posX = value; }
+    public int PosY { get => _posY; set => _posY = value; }
+    public int GCost { get => _gCost; set => _gCost = value; }
+    public int HCost { get => _hCost; set => _hCost = value; }
+    public int FCost { get => _gCost + HCost; }
+    public Tile Parent { get => _parent; set => _parent = value; }
+    public List<Tile> Neighbours { get => _neighbours; set => _neighbours = value; }
 
-    public List<Tile> neigbors;
-
-    [SerializeField] private Color onMouseOver;
-    private Color color;
-    private SpriteRenderer renderer;
+    [SerializeField] private Color _onMouseOver;
+    private Color _color;
+    private SpriteRenderer _renderer;
 
     private void Awake()
     {
-        renderer = GetComponent<SpriteRenderer>();
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
     {
-        color = renderer.color;
-        neigbors = new List<Tile>();
+        _color = _renderer.color;
     }  
 
     private void OnMouseOver()
     {
         if (Input.GetMouseButton(0))
         {
-            if (color == Color.white)
+            if (_color == Color.white)
             {
-                renderer.color = Color.black;
-                isWall = true;
+                _renderer.color = Color.black;
+                IsWall = true;
             }
             else
             {
-                renderer.color = Color.white;
-                isWall = false;
+                _renderer.color = Color.white;
+                IsWall = false;
             }
         }
 
         if (Input.GetMouseButton(1))
         {
-            MazeManager.Instance.SetStartEndTile(this);
+            GetComponentInParent<MazeManager>().SetStartEndTile(this);
         }
     }
 
