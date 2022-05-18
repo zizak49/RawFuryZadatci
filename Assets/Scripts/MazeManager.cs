@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridManager : MonoBehaviour
+public class MazeManager : MonoBehaviour
 {
     public enum TileTypePlacement
     {
@@ -13,38 +12,19 @@ public class GridManager : MonoBehaviour
 
     public TileTypePlacement placement = TileTypePlacement.Null;
 
-    [SerializeField] public int xSize;
-    [SerializeField] public int ySize;
+    private int _xSize, _ySize;
 
-    public Tile[,] maze;
-
+    private Tile[,] _maze;
     private Tile startTile = null;
     private Tile endTile = null;
-    private Tile currentTile = null;
 
     [SerializeField] private GameObject tilePrefab;
-
     [SerializeField] private Task2UI_Controller uiController;
-
-    private static GridManager _instance;
-    public static GridManager Instance { get { return _instance; } }
-
-    private void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
-    }
 
     private void Start()
     {
-        maze = new Tile[xSize, ySize];
-        GenerateGrid(xSize, ySize);
+        _maze = new Tile[_xSize, _ySize];
+        GenerateGrid(_xSize, _ySize);
     }
 
     private void GenerateGrid(int xSize, int ySize)
@@ -61,15 +41,15 @@ public class GridManager : MonoBehaviour
                 tile.posX = x;
                 tile.posY = y;
 
-                maze[x, y] = tile;
+                _maze[x, y] = tile;
+                
+                //
             }
         }
     }
 
     public void CalculatePath()
     {
-        Debug.Log("calc");
-
         Pathfinding pathfinding = new Pathfinding();
         pathfinding.FindPath(startTile, endTile);
     }
@@ -107,7 +87,7 @@ public class GridManager : MonoBehaviour
             uiController.EnableFindPathButton();
         }
     }
-
+    
     public List<Tile> GetTileNeighbours(Tile tile)
     {
         List<Tile> neighbours = new List<Tile>();
@@ -122,14 +102,16 @@ public class GridManager : MonoBehaviour
                 int checkX = tile.posX + x;
                 int checkY = tile.posY + y;
 
-                if (checkX >= 0 && checkX < xSize && checkY >= 0 && checkY < ySize)
+                if (checkX >= 0 && checkX < _xSize && checkY >= 0 && checkY < _ySize)
                 {
-                    neighbours.Add(maze[checkX, checkY]);
+                    neighbours.Add(_maze[checkX, checkY]);
                 }
             }
         }        
         return neighbours;
     }
+
+    public Tile[,] GetMaze() { return maze; }
 }
 
 

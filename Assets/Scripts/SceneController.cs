@@ -8,6 +8,8 @@ public class SceneController : MonoBehaviour
 
     [SerializeField] private GameObject startCanvas;
 
+    // addressable
+
     private void Awake()
     {
         if (_instance != null && _instance != this)

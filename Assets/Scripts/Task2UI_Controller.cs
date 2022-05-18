@@ -14,16 +14,16 @@ public class Task2UI_Controller : MonoBehaviour
 
     public void OnClickAddStart() 
     {
-        GridManager.Instance.placement = GridManager.TileTypePlacement.Start;
+        MazeManager.Instance.placement = MazeManager.TileTypePlacement.Start;
     }
 
     public void OnClickAddEnd()
     {
-        GridManager.Instance.placement = GridManager.TileTypePlacement.End;
+        MazeManager.Instance.placement = MazeManager.TileTypePlacement.End;
     }
 
     public void OnClickFindPath() 
     {
-        GridManager.Instance.CalculatePath();
+        MazeManager.Instance.CalculatePath();
     }
 }

@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class AI_movement : MonoBehaviour
+public class AIMovement : MonoBehaviour
 {
-    private enum AI_State
+    private enum AIState
     {
         Searching,
         MovingToDestination,
         Carry
     }
-    private AI_State state = AI_State.Searching;
+    private AIState state = AIState.Searching;
 
     [SerializeField] private float speed;
 
@@ -30,8 +30,6 @@ public class AI_movement : MonoBehaviour
     private bool leftClear = false;
     private bool rightClear = false;
 
-    
-
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -44,20 +42,22 @@ public class AI_movement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //gleadj polovidu i udaljenosti
+
         // move to target
         transform.position = Vector2.MoveTowards(transform.position, currentDestionation.transform.position, Time.deltaTime * speed);
 
         // destination reached
         if (Vector2.Distance(transform.position, currentDestionation.transform.position) <= dropOffDistance)
         {
-            if (state == AI_State.Carry)
+            if (state == AIState.Carry)
             {
                 DropOffBox();
                 return;
             }
 
             // check from current position to red container
-            if (state == AI_State.Searching && currentDestionation == redBoxContainer)
+            if (state == AIState.Searching && currentDestionation == redBoxContainer)
             {
                 leftClear = true;
 
@@ -68,7 +68,7 @@ public class AI_movement : MonoBehaviour
             }
 
             // check from current position to blue container
-            if (state == AI_State.Searching && currentDestionation == blueBoxContainer)
+            if (state == AIState.Searching && currentDestionation == blueBoxContainer)
             {
                 rightClear = true;
 
@@ -85,7 +85,7 @@ public class AI_movement : MonoBehaviour
         Debug.Log("PickUp");
         carrying = true;
 
-        ChangeState(AI_State.Carry);
+        ChangeState(AIState.Carry);
 
         carryBlock = block.GetComponent<Block>();
 
@@ -118,11 +118,11 @@ public class AI_movement : MonoBehaviour
         else
             SetDestination(redBoxContainer);
 
-        ChangeState(AI_State.Searching);
+        ChangeState(AIState.Searching);
     
     }
 
-    private void ChangeState(AI_State newState) 
+    private void ChangeState(AIState newState) 
     {
         Debug.Log(newState);
         state = newState; 

@@ -6,8 +6,6 @@ public class Pathfinding : MonoBehaviour
 {
 	public void FindPath(Tile start, Tile target)
 	{
-		Debug.Log("start");
-
 		List<Tile> openSet = new List<Tile>();
 		HashSet<Tile> closedSet = new HashSet<Tile>();
 		openSet.Add(start);
@@ -30,12 +28,11 @@ public class Pathfinding : MonoBehaviour
 
 			if (currentTile == target)
 			{
-				Debug.Log("end");
 				RetracePath(start, target);
 				return;
 			}
 
-			foreach (Tile neighbour in GridManager.Instance.GetTileNeighbours(currentTile))
+			foreach (Tile neighbour in MazeManager.Instance.GetTileNeighbours(currentTile))
 			{
 				if (neighbour.isWall || closedSet.Contains(neighbour))
 				{
@@ -67,10 +64,9 @@ public class Pathfinding : MonoBehaviour
 			currentNode.ColorVisited();
 			currentNode = currentNode.parent;
 		}
-		Debug.Log(path.Count);
 		path.Reverse();
 	}
-
+	//get mathatan dis
 	int GetDistance(Tile tileA, Tile tileB)
 	{
 		int dstX = Mathf.Abs(tileA.posX - tileB.posX);

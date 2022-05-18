@@ -15,6 +15,8 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public List<Tile> neighbours = new List<Tile>();
+
     public Tile parent;
 
     public int posX;
@@ -35,52 +37,7 @@ public class Tile : MonoBehaviour
     {
         color = renderer.color;
         neigbors = new List<Tile>();
-    }
-
-    /*public void CheckNeighbours()
-    {
-        Tile[,] grid = GridManager.Instance.grid;
-        int x = GridManager.Instance.xSize;
-        int y = GridManager.Instance.ySize;
-
-        // check borders and wall
-        if (posY+1 < y)
-        {
-            Tile top = grid[posX, posY + 1];
-            if (!top.isWall)
-            {
-                top.ColorVisited();
-                neigbors.Add(top);
-            }
-        }
-        if (posX+1 < x)
-        {
-            Tile right = grid[posX + 1, posY];
-            if (!right.isWall)
-            {
-                right.ColorVisited();
-                neigbors.Add(right);
-            }
-        }
-        if (posY-1 >= 0)
-        {
-            Tile bottom = grid[posX, posY - 1];
-            if (!bottom.isWall)
-            {
-                bottom.ColorVisited();
-                neigbors.Add(bottom);
-            }
-        }
-        if (posX-1 >=0)
-        {
-            Tile left = grid[posX - 1, posY];
-            if (!left.isWall)
-            {
-                left.ColorVisited();
-                neigbors.Add(left);
-            }
-        }
-    }*/
+    }  
 
     private void OnMouseOver()
     {
@@ -100,7 +57,7 @@ public class Tile : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-            GridManager.Instance.SetStartEndTile(this);
+            MazeManager.Instance.SetStartEndTile(this);
         }
     }
 
