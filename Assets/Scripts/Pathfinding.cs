@@ -68,14 +68,13 @@ public class Pathfinding : MonoBehaviour
 		path[0].ColorStart();
 		path[path.Count - 1].ColorEnd();
 	}
-	//get mathatan dis
+
+	// Manhattan distance
 	int GetDistance(Tile tileA, Tile tileB)
 	{
 		int dstX = Mathf.Abs(tileA.PosX - tileB.PosX);
 		int dstY = Mathf.Abs(tileA.PosY - tileB.PosY);
 
-		if (dstX > dstY)
-			return 14 * dstY + 10 * (dstX - dstY);
-		return 14 * dstX + 10 * (dstY - dstX);
+		return dstX + dstY;
 	}
 }
