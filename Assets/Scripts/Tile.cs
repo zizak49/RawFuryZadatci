@@ -5,7 +5,9 @@ public class Tile : MonoBehaviour
 {
     private bool _isWall = false;
 
-    private int _gCost; 
+    private bool _visited = false;
+
+    private int _gCost;
     private int _hCost;
     private int _fCost;
 
@@ -15,7 +17,6 @@ public class Tile : MonoBehaviour
     private List<Tile> _neighbours = new List<Tile>();
     private Tile _parent;
 
-    public bool IsWall { get => _isWall; set => _isWall = value; }
     public int PosX { get => _posX; set => _posX = value; }
     public int PosY { get => _posY; set => _posY = value; }
     public int GCost { get => _gCost; set => _gCost = value; }
@@ -23,6 +24,8 @@ public class Tile : MonoBehaviour
     public int FCost { get => _gCost + HCost; }
     public Tile Parent { get => _parent; set => _parent = value; }
     public List<Tile> Neighbours { get => _neighbours; set => _neighbours = value; }
+    public bool IsWall { get => _isWall; set => _isWall = value; }
+    public bool Visited { get => _visited; set => _visited = value; }
 
     [SerializeField] private Color _onMouseOver;
     private Color _color;
@@ -36,7 +39,7 @@ public class Tile : MonoBehaviour
     private void Start()
     {
         _color = _renderer.color;
-    }  
+    }
 
     private void OnMouseOver()
     {
@@ -44,14 +47,12 @@ public class Tile : MonoBehaviour
         {
             if (_color == Color.white)
             {
-                _renderer.color = Color.black;
-                IsWall = true;
+                SetIsWall(true);
                 UpdateNeighbours();
             }
             else
             {
-                _renderer.color = Color.white;
-                IsWall = false;
+                SetIsWall(false);
             }
         }
 
@@ -61,9 +62,9 @@ public class Tile : MonoBehaviour
         }
     }
 
-    private void UpdateNeighbours() 
+    private void UpdateNeighbours()
     {
-        if (_isWall)
+        if (IsWall)
         {
             foreach (Tile item in _neighbours)
             {
@@ -73,6 +74,11 @@ public class Tile : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void RemoveWallsFromNeighbours() 
+    {
+        Neighbours.RemoveAll(x => x.IsWall);
     }
 
     public void ColorStart() 
@@ -94,4 +100,15 @@ public class Tile : MonoBehaviour
     {
         _renderer.color = Color.yellow; 
     }
+
+    public void SetIsWall(bool isWall) 
+    {
+        IsWall = isWall;
+
+        if (IsWall)
+            _renderer.color = Color.black;
+        else
+            _renderer.color = Color.white;
+    }
+
 }

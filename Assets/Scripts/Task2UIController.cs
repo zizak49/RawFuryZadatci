@@ -38,7 +38,7 @@ public class Task2UIController : MonoBehaviour
 
     public void OnClickFindPath() 
     {
-        mazeManager.CalculatePath();
+        mazeManager.CalculateMazePath();
     }
 
     public void OnValueChangedSizeX() 
@@ -71,7 +71,7 @@ public class Task2UIController : MonoBehaviour
     {
         Debug.Log("Create maze...");
         mazeControlls.SetActive(false);
-        mazeManager.GenerateMaze();
+        mazeManager.InstantiateMaze(false);
     }
 
     public void OnClickUseDiagonal()
@@ -86,5 +86,10 @@ public class Task2UIController : MonoBehaviour
             mazeManager.UseDiagonal = true;
             diagonalIndicator.color = Color.green;
         }
+    }
+
+    public void OnClickGenerateMaze() 
+    {
+        mazeManager.GenerateMaze();
     }
 }

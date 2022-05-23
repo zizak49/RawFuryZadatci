@@ -52,16 +52,16 @@ public class Pathfinding : MonoBehaviour
 		}
 	}
 
-	void RetracePath(Tile startNode, Tile endNode)
+	void RetracePath(Tile startTile, Tile endTile)
 	{
 		List<Tile> path = new List<Tile>();
-		Tile currentNode = endNode;
+		Tile currentTile = endTile;
 
-		while (currentNode != startNode)
+		while (currentTile != startTile)
 		{
-			path.Add(currentNode);
-			currentNode.ColorVisited();
-			currentNode = currentNode.Parent;
+			path.Add(currentTile);
+			currentTile.ColorVisited();
+			currentTile = currentTile.Parent;
 		}
 		path.Reverse();
 

@@ -309,6 +309,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2130770332, guid: 04028fcb78e81e847b2f328bed3a9394, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickGenerateMaze
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130770332, guid: 04028fcb78e81e847b2f328bed3a9394, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Task2UIController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5038029729604475119, guid: 04028fcb78e81e847b2f328bed3a9394, type: 3}
       propertyPath: m_Name
       value: Task2UI

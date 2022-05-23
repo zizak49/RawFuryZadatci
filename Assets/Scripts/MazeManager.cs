@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MazeManager : MonoBehaviour
@@ -27,7 +28,7 @@ public class MazeManager : MonoBehaviour
     public int YSize { get => _ySize; set => _ySize = value; }
     public bool UseDiagonal { get => _useDiagonal; set => _useDiagonal = value; }
 
-    public void GenerateMaze()
+    public void InstantiateMaze(bool createAsWalls)
     {
         _maze = new Tile[_xSize, _ySize];
 
@@ -35,21 +36,22 @@ public class MazeManager : MonoBehaviour
         {
             for (int y = 0; y < _ySize; y++)
             {
-                GameObject newTile = Instantiate(_tilePrefab, new Vector2(0, 0), Quaternion.identity, transform);
-                newTile.transform.position = new Vector2(x, y);
-                newTile.gameObject.name = "Tile: " + x + "|" + y;
+                GameObject newTile = Instantiate(_tilePrefab, new Vector2(x, y), Quaternion.identity, transform);
+                newTile.gameObject.name = x + "|" + y;
 
                 Tile tile = newTile.GetComponent<Tile>();
                 tile.PosX = x;
                 tile.PosY = y;
 
+                tile.SetIsWall(createAsWalls);
+
                 _maze[x, y] = tile;
             }
         }
-        GetTileNeighbours();
+        GetTileNeighbours(false);
     }
 
-    public void CalculatePath()
+    public void CalculateMazePath()
     {
         Pathfinding pathfinding = new Pathfinding();
         pathfinding.FindPath(_startTile, _endTile);
@@ -89,21 +91,16 @@ public class MazeManager : MonoBehaviour
         }
     }
 
-    // Returnes true if tile is in bodred of maze and not a wall
+    // Returnes true if tile is in bodrders of maze
     private bool IsValidTile(int x, int y) 
     {
         if (x >= 0 && x < XSize && y >= 0 && y < YSize) 
-        {
-            if (_maze[x,y].IsWall)
-                return false;
-
             return true;
-        }
         return false;
     }
     
     // probaj maknut ifove
-    public void GetTileNeighbours()
+    public void GetTileNeighbours(bool removeWalls)
     {
         for (int x = 0; x < XSize; x++)
         {
@@ -139,8 +136,38 @@ public class MazeManager : MonoBehaviour
                     if (IsValidTile(x + 1, y - 1))
                         tile.Neighbours.Add(_maze[tile.PosX + 1, tile.PosY - 1]);
                 }
+
+                if (removeWalls)
+                {
+                    tile.RemoveWallsFromNeighbours();
+                }
             }
         }
+    }
+
+    public void GenerateMaze() 
+    {
+        InstantiateMaze(true);
+
+        Tile start = _maze[Random.Range(0,XSize), Random.Range(0, YSize)];
+        start.SetIsWall(false);
+        start.Visited = true;
+
+        int count = 0;
+        while (count != 20000) 
+        {
+            Tile randTile = start.Neighbours[Random.Range(0,start.Neighbours.Count)];
+
+            if (!randTile.Visited) 
+            {
+                randTile.Visited = true;
+                randTile.SetIsWall(false);
+            }
+            start = randTile;
+            count++;
+        }
+
+        GetTileNeighbours(true);
     }
 
     public Tile[,] GetMaze() 
