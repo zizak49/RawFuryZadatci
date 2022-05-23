@@ -3,7 +3,18 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    private bool _isWall = false;
+    public enum TileType
+    {
+        Start,
+        End,
+        Walkable,
+        Path,
+        Wall
+    }
+
+    public TileType tileType;
+
+    private Dictionary<TileType, Color> tileTypesByColor = new Dictionary<TileType, Color>();
 
     private bool _visited = false;
 
@@ -24,11 +35,8 @@ public class Tile : MonoBehaviour
     public int FCost { get => _gCost + HCost; }
     public Tile Parent { get => _parent; set => _parent = value; }
     public List<Tile> Neighbours { get => _neighbours; set => _neighbours = value; }
-    public bool IsWall { get => _isWall; set => _isWall = value; }
     public bool Visited { get => _visited; set => _visited = value; }
 
-    [SerializeField] private Color _onMouseOver;
-    private Color _color;
     private SpriteRenderer _renderer;
 
     private void Awake()
@@ -38,33 +46,38 @@ public class Tile : MonoBehaviour
 
     private void Start()
     {
-        _color = _renderer.color;
+        InitColorTileTypeValues();
+        SetTileColorByType(tileType);
     }
 
     private void OnMouseOver()
     {
         if (Input.GetMouseButton(0))
         {
-            if (_color == Color.white)
+            if (tileType == TileType.Walkable)
             {
-                SetIsWall(true);
+                SetTileColorByType(TileType.Wall);
                 UpdateNeighbours();
-            }
-            else
-            {
-                SetIsWall(false);
             }
         }
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButtonDown(1))
         {
-            GetComponentInParent<MazeManager>().SetStartEndTile(this);
+            MazeManager mazeManager = GetComponentInParent<MazeManager>();
+
+            if (mazeManager.placement == MazeManager.TileTypePlacement.Null)
+                return;
+
+            if (mazeManager.placement == MazeManager.TileTypePlacement.Start)
+                mazeManager.SetStartTile(this);
+            else               
+                mazeManager.SetEndTile(this);
         }
     }
 
     private void UpdateNeighbours()
     {
-        if (IsWall)
+        if (tileType == TileType.Wall)
         {
             foreach (Tile item in _neighbours)
             {
@@ -78,37 +91,26 @@ public class Tile : MonoBehaviour
 
     public void RemoveWallsFromNeighbours() 
     {
-        Neighbours.RemoveAll(x => x.IsWall);
+        Neighbours.RemoveAll(x => x.tileType == TileType.Wall);
     }
 
-    public void ColorStart() 
+    public void SetTileColor(Color newColor) 
     {
-        _renderer.color = Color.green;
+        _renderer.color = newColor;
     }
 
-    public void ColorEnd() 
+    public void SetTileColorByType(TileType newTileType)
     {
-        _renderer.color = Color.red;
+        tileType = newTileType;
+        _renderer.color = tileTypesByColor[tileType];
     }
 
-    public void ColorPath() 
+    private void InitColorTileTypeValues() 
     {
-        _renderer.color = Color.white;
+        tileTypesByColor.Add(TileType.Start, Color.green);
+        tileTypesByColor.Add(TileType.End, Color.red);
+        tileTypesByColor.Add(TileType.Walkable, Color.white);
+        tileTypesByColor.Add(TileType.Wall, Color.black);
+        tileTypesByColor.Add(TileType.Path, Color.yellow);
     }
-
-    public void ColorVisited() 
-    {
-        _renderer.color = Color.yellow; 
-    }
-
-    public void SetIsWall(bool isWall) 
-    {
-        IsWall = isWall;
-
-        if (IsWall)
-            _renderer.color = Color.black;
-        else
-            _renderer.color = Color.white;
-    }
-
 }

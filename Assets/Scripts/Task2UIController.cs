@@ -8,12 +8,6 @@ public class Task2UIController : MonoBehaviour
     [SerializeField] private GameObject mazeControlls;
     [SerializeField] private MazeManager mazeManager;
 
-    [SerializeField] private int minSize, maxSize;
-
-    [SerializeField] private TextMeshProUGUI inputX;
-    [SerializeField] private TextMeshProUGUI inputY;
-
-
     [SerializeField] private Image diagonalIndicator;
 
     void Start() 
@@ -39,32 +33,6 @@ public class Task2UIController : MonoBehaviour
     public void OnClickFindPath() 
     {
         mazeManager.CalculateMazePath();
-    }
-
-    public void OnValueChangedSizeX() 
-    {
-        if (int.TryParse(inputX.text, out int value))
-        {
-            if (value < minSize || value > maxSize)
-            {
-                inputX.text = "500";
-                value = 500;
-            }
-            mazeManager.XSize = value;
-        }
-    }
-
-    public void OnValueChangedSizeY()
-    {
-        if (int.TryParse(inputY.text, out int value))
-        {
-            if (value < minSize || value > maxSize)
-            {
-                inputY.text = "500";
-                value = 500;
-            }
-            mazeManager.YSize = value;
-        }
     }
 
     public void OnClickBlankMaze() 

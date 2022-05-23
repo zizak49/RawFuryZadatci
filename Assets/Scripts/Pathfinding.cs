@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class Pathfinding : MonoBehaviour
 {
+	/// <summary>
+	/// Find shorthest path from start to target using A* algorithm.
+	/// </summary>
+	/// <param name="start"></param>
+	/// <param name="target"></param>
 	public void FindPath(Tile start, Tile target)
 	{
 		List<Tile> openSet = new List<Tile>();
@@ -52,7 +57,7 @@ public class Pathfinding : MonoBehaviour
 		}
 	}
 
-	void RetracePath(Tile startTile, Tile endTile)
+	private void RetracePath(Tile startTile, Tile endTile)
 	{
 		List<Tile> path = new List<Tile>();
 		Tile currentTile = endTile;
@@ -60,17 +65,22 @@ public class Pathfinding : MonoBehaviour
 		while (currentTile != startTile)
 		{
 			path.Add(currentTile);
-			currentTile.ColorVisited();
+			currentTile.SetTileColorByType(Tile.TileType.Path);
 			currentTile = currentTile.Parent;
 		}
 		path.Reverse();
 
-		path[0].ColorStart();
-		path[path.Count - 1].ColorEnd();
+		path[0].SetTileColorByType(Tile.TileType.Start);
+		path[path.Count - 1].SetTileColorByType(Tile.TileType.End);
 	}
 
-	// Manhattan distance
-	int GetDistance(Tile tileA, Tile tileB)
+	/// <summary>
+	/// Calculate distance using Manhattan distance formula
+	/// </summary>
+	/// <param name="tileA"></param>
+	/// <param name="tileB"></param>
+	/// <returns> Shortest distance between tileA and tileB </returns>
+	private int GetDistance(Tile tileA, Tile tileB)
 	{
 		int dstX = Mathf.Abs(tileA.PosX - tileB.PosX);
 		int dstY = Mathf.Abs(tileA.PosY - tileB.PosY);
