@@ -13,6 +13,9 @@ public class Block : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private new BoxCollider2D collider;
 
+    public float distanceToContainer;
+    public bool dropedOff = false;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();

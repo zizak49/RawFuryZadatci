@@ -1,111 +1,72 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AIMovement : MonoBehaviour
 {
-    private enum AIState
-    {
-        Searching,
-        MovingToDestination,
-        Carry
-    }
-    private AIState state = AIState.Searching;
+    private State currentState;
+    public SearchState searchState = new SearchState();
+    public PickUpState pickUpState = new PickUpState();
+    public DropOffState dropOffState = new DropOffState();
+    public MoveState moveState = new MoveState();
 
     [SerializeField] private float speed;
 
-    [SerializeField] private GameObject blueBoxContainer;
-    [SerializeField] private GameObject redBoxContainer;
+    [SerializeField] public GameObject blueBoxContainer;
+    [SerializeField] public GameObject redBoxContainer;
 
-    [Space(10)]
+    [SerializeField] public GameObject currentDestionation;
+    [SerializeField] private float destinationReachedDistance;
 
-    [SerializeField] private GameObject currentDestionation;
-    private GameObject lastDestionation;
-
-    [SerializeField] private float dropOffDistance;
     [SerializeField] private GameObject boxHolder;
-    private Block carryBlock;
+    public Block carryBlock;
     private bool carrying = false;
 
-    private Rigidbody2D rigidbody;
+    private float distanceToBlueCon;
+    private float distanceToRedCon;
 
-    private bool leftClear = false;
-    private bool rightClear = false;
-
-    private void Awake()
-    {
-        rigidbody = GetComponent<Rigidbody2D>();
-    }
+    public List<Block> blocks = new List<Block>();
 
     private void Start()
     {
-        SetDestination(redBoxContainer);
+        currentState = searchState;
+        currentState.EnterState(this);
     }
 
     private void FixedUpdate()
-    {
-        //gleadj polovidu i udaljenosti
+    { 
+        distanceToBlueCon = Vector2.Distance(transform.position, blueBoxContainer.transform.position);
+        distanceToRedCon = Vector2.Distance(transform.position, redBoxContainer.transform.position);
 
-        // move to target
+        currentState.UpdateState(this);
+
         transform.position = Vector2.MoveTowards(transform.position, currentDestionation.transform.position, Time.deltaTime * speed);
-
-        // destination reached
-        if (Vector2.Distance(transform.position, currentDestionation.transform.position) <= dropOffDistance)
-        {
-            if (state == AIState.Carry)
-            {
-                DropOffBox();
-                return;
-            }
-
-            // check from current position to red container
-            if (state == AIState.Searching && currentDestionation == redBoxContainer)
-            {
-                leftClear = true;
-
-                CheckIfDone();
-
-                SetDestination(blueBoxContainer);
-                return;
-            }
-
-            // check from current position to blue container
-            if (state == AIState.Searching && currentDestionation == blueBoxContainer)
-            {
-                rightClear = true;
-
-                CheckIfDone();
-
-                SetDestination(redBoxContainer);
-                return;
-            }
-        }   
     }
 
-    private void PickUpBox(GameObject block) 
+    public void SwitchState(State newState) 
     {
-        Debug.Log("PickUp");
+        currentState = newState;
+        Debug.Log(newState);
+        newState.EnterState(this);
+    }
+
+    public bool ReachedDestination()
+    {
+        return Vector2.Distance(transform.position, currentDestionation.transform.position) < destinationReachedDistance;
+    }
+
+    public void PickUpBox(GameObject block) 
+    {
         carrying = true;
-
-        ChangeState(AIState.Carry);
-
         carryBlock = block.GetComponent<Block>();
 
         carryBlock.transform.parent = boxHolder.transform;        
         carryBlock.transform.position = boxHolder.transform.position;
-
-        if (carryBlock.color == Block.BlockColor.Blue)
-        {
-            SetDestination(blueBoxContainer);
-        }
-        else
-        {
-            SetDestination(redBoxContainer);
-        }
     }
 
-    private void DropOffBox() 
+    public void DropOffBox() 
     {
-        Debug.Log("DropOff");
         carrying = false;
+        blocks.Remove(carryBlock);
 
         carryBlock.SetCollider(false);
         carryBlock.transform.parent = currentDestionation.transform;
@@ -113,43 +74,43 @@ public class AIMovement : MonoBehaviour
         carryBlock.transform.position = new Vector2(currentDestionation.transform.position.x + Random.Range(-0.5f,0.5f),
             currentDestionation.transform.position.y + Random.Range(-0.5f, 0.5f));
 
-        if (currentDestionation == redBoxContainer)
-            SetDestination(blueBoxContainer);
-        else
-            SetDestination(redBoxContainer);
+        carryBlock = null;
 
-        ChangeState(AIState.Searching);
-    
+        currentDestionation = null;
+
     }
 
-    private void ChangeState(AIState newState) 
+    public void Search() 
     {
-        Debug.Log(newState);
-        state = newState; 
+        currentDestionation = distanceToBlueCon > distanceToRedCon ? blueBoxContainer : redBoxContainer;
     }
 
-    private void SetDestination(GameObject newDestination)  
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        lastDestionation = currentDestionation;
-        currentDestionation = newDestination;
-    }
-
-    private void CheckIfDone() 
-    {
-        if (leftClear && rightClear)
+        if (other.CompareTag("Block"))
         {
-            Debug.Log("Done");
-            Task1UIController.Instance.ShowExitButton();
-            Time.timeScale = 0;
+            Block block = other.GetComponent<Block>();
+            if (!blocks.Contains(block))
+            {
+                block.distanceToContainer = CalculateDistanceToCon(block);
+                blocks.Add(block);
+            }
+
+            if (!carrying)
+            {
+                currentState.OnTriggerEnter(this, other);                
+            }
+
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private float CalculateDistanceToCon(Block block) 
     {
-        if (collision.transform.CompareTag("Block") && !carrying)
+        if (block.color == Block.BlockColor.Red)
         {
-            Debug.Log(collision.gameObject.name);
-            PickUpBox(collision.gameObject);
+            return Vector2.Distance(block.transform.position, redBoxContainer.transform.position);
         }
+        return Vector2.Distance(block.transform.position, blueBoxContainer.transform.position);
     }
 }
+
