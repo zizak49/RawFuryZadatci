@@ -9,16 +9,14 @@ public class SearchState : State
 
     public override void OnTriggerEnter(AIMovement aIMovement, Collider2D collider2D)
     {
-        aIMovement.carryBlock = collider2D.GetComponent<Block>();
-        aIMovement.SwitchState(aIMovement.pickUpState);
+        aIMovement.CarryBlock = collider2D.GetComponent<Block>();
+        aIMovement.SwitchState(aIMovement.PickUpState);
         aIMovement.PickUpBox(collider2D.gameObject);
     }
 
     public override void UpdateState(AIMovement aIMovement)
     {
         if (aIMovement.ReachedDestination())
-        {
             aIMovement.Search();
-        }
     }
 }

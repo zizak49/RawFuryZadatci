@@ -5,20 +5,20 @@ public class MoveState : State
 {
     public override void EnterState(AIMovement aIMovement)
     {
-        aIMovement.currentDestionation = FindClosestBlockToCarry(aIMovement.blocks).gameObject;
+        aIMovement.CurrentDestionation = FindClosestBlockToCarry(aIMovement.GetBlocks()).gameObject;
     }
 
     public override void OnTriggerEnter(AIMovement aIMovement, Collider2D collider2D)
     {
-        //throw new System.NotImplementedException();
+        
     }
 
     public override void UpdateState(AIMovement aIMovement)
     {
         if (aIMovement.ReachedDestination())
         {
-            aIMovement.PickUpBox(aIMovement.currentDestionation);
-            aIMovement.SwitchState(aIMovement.pickUpState);
+            aIMovement.PickUpBox(aIMovement.CurrentDestionation);
+            aIMovement.SwitchState(aIMovement.PickUpState);
         }
     }
 
@@ -35,8 +35,6 @@ public class MoveState : State
                 closestBlock = item;
             }
         }
-        Debug.Log(closestBlock.name + " " + closestBlock.distanceToContainer);
-
         return closestBlock;
     }
 }

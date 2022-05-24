@@ -146,11 +146,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e134941c5269e14fb941e446f8caa29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  blueBoxContainer: {fileID: 0}
-  redBoxContainer: {fileID: 0}
-  currentDestionation: {fileID: 0}
-  boxHolder: {fileID: 1911899660094066012}
+  _speed: 5
+  _blockHolder: {fileID: 1911899660094066012}
+  _blueBlockContainer: {fileID: 0}
+  _redblockContainer: {fileID: 0}
+  _destinationReachedDistance: 0.7
 --- !u!1001 &693164684610504342
 PrefabInstance:
   m_ObjectHideFlags: 0

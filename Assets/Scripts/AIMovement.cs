@@ -3,86 +3,91 @@ using UnityEngine;
 
 public class AIMovement : MonoBehaviour
 {
-    private State currentState;
-    public SearchState searchState = new SearchState();
-    public PickUpState pickUpState = new PickUpState();
-    public DropOffState dropOffState = new DropOffState();
-    public MoveState moveState = new MoveState();
+    private State _currentState;
+    private SearchState _searchState = new SearchState();
+    private PickUpState _pickUpState = new PickUpState();
+    private DropOffState _dropOffState = new DropOffState();
+    private MoveState _moveState = new MoveState();
 
-    [SerializeField] private float speed;
+    [SerializeField] private float _speed;
+    [SerializeField] private GameObject _blockHolder;
+    
+    private bool _carrying = false;
+    private Block _carryBlock;
 
-    [SerializeField] public GameObject blueBoxContainer;
-    [SerializeField] public GameObject redBoxContainer;
+    [SerializeField] private GameObject _blueBlockContainer;
+    [SerializeField] private GameObject _redblockContainer;
+    private GameObject _currentDestionation;
 
-    [SerializeField] public GameObject currentDestionation;
-    [SerializeField] private float destinationReachedDistance;
+    [SerializeField] private float _destinationReachedDistance;
+    private float _distanceToBlueContainer;
+    private float _distanceToRedContainer;
 
-    [SerializeField] private GameObject boxHolder;
-    public Block carryBlock;
-    private bool carrying = false;
+    private List<Block> _blocks = new List<Block>();
 
-    private float distanceToBlueCon;
-    private float distanceToRedCon;
-
-    public List<Block> blocks = new List<Block>();
+    public GameObject BlueBoxContainer { get => _blueBlockContainer; set => _blueBlockContainer = value; }
+    public GameObject RedBoxContainer { get => _redblockContainer; set => _redblockContainer = value; }
+    public GameObject CurrentDestionation { get => _currentDestionation; set => _currentDestionation = value; }
+    public SearchState SearchState { get => _searchState; set => _searchState = value; }
+    public PickUpState PickUpState { get => _pickUpState; set => _pickUpState = value; }
+    public DropOffState DropOffState { get => _dropOffState; set => _dropOffState = value; }
+    public MoveState MoveState { get => _moveState; set => _moveState = value; }
+    public Block CarryBlock { get => _carryBlock; set => _carryBlock = value; }
 
     private void Start()
     {
-        currentState = searchState;
-        currentState.EnterState(this);
+        _currentState = SearchState;
+        _currentState.EnterState(this);
     }
 
     private void FixedUpdate()
     { 
-        distanceToBlueCon = Vector2.Distance(transform.position, blueBoxContainer.transform.position);
-        distanceToRedCon = Vector2.Distance(transform.position, redBoxContainer.transform.position);
+        _distanceToBlueContainer = Vector2.Distance(transform.position, _blueBlockContainer.transform.position);
+        _distanceToRedContainer = Vector2.Distance(transform.position, _redblockContainer.transform.position);
 
-        currentState.UpdateState(this);
+        _currentState.UpdateState(this);
 
-        transform.position = Vector2.MoveTowards(transform.position, currentDestionation.transform.position, Time.deltaTime * speed);
+        transform.position = Vector2.MoveTowards(transform.position, CurrentDestionation.transform.position, Time.deltaTime * _speed);
     }
 
     public void SwitchState(State newState) 
     {
-        currentState = newState;
-        Debug.Log(newState);
+        _currentState = newState;
         newState.EnterState(this);
     }
 
     public bool ReachedDestination()
     {
-        return Vector2.Distance(transform.position, currentDestionation.transform.position) < destinationReachedDistance;
+        return Vector2.Distance(transform.position, _currentDestionation.transform.position) < _destinationReachedDistance;
     }
 
     public void PickUpBox(GameObject block) 
     {
-        carrying = true;
-        carryBlock = block.GetComponent<Block>();
+        _carrying = true;
+        CarryBlock = block.GetComponent<Block>();
 
-        carryBlock.transform.parent = boxHolder.transform;        
-        carryBlock.transform.position = boxHolder.transform.position;
+        CarryBlock.transform.parent = _blockHolder.transform;        
+        CarryBlock.transform.position = _blockHolder.transform.position;
     }
 
     public void DropOffBox() 
     {
-        carrying = false;
-        blocks.Remove(carryBlock);
+        _carrying = false;
+        _blocks.Remove(CarryBlock);
 
-        carryBlock.SetCollider(false);
-        carryBlock.transform.parent = currentDestionation.transform;
+        CarryBlock.SetCollider(false);
+        CarryBlock.transform.parent = _currentDestionation.transform;
 
-        carryBlock.transform.position = new Vector2(currentDestionation.transform.position.x + Random.Range(-0.5f,0.5f),
-            currentDestionation.transform.position.y + Random.Range(-0.5f, 0.5f));
+        CarryBlock.transform.position = new Vector2(_currentDestionation.transform.position.x + Random.Range(-0.5f,0.5f),
+            _currentDestionation.transform.position.y + Random.Range(-0.5f, 0.5f));
 
-        carryBlock = null;
-
-        currentDestionation = null;
-
+        CarryBlock = null;
+        CurrentDestionation = null;
     }
 
     public void Search() 
     {
-        currentDestionation = distanceToBlueCon > distanceToRedCon ? blueBoxContainer : redBoxContainer;
+        _currentDestionation = _distanceToBlueContainer > _distanceToRedContainer ? BlueBoxContainer : RedBoxContainer;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -90,15 +95,15 @@ public class AIMovement : MonoBehaviour
         if (other.CompareTag("Block"))
         {
             Block block = other.GetComponent<Block>();
-            if (!blocks.Contains(block))
+            if (!_blocks.Contains(block))
             {
                 block.distanceToContainer = CalculateDistanceToCon(block);
-                blocks.Add(block);
+                _blocks.Add(block);
             }
 
-            if (!carrying)
+            if (!_carrying)
             {
-                currentState.OnTriggerEnter(this, other);                
+                _currentState.OnTriggerEnter(this, other);                
             }
 
         }
@@ -108,9 +113,14 @@ public class AIMovement : MonoBehaviour
     {
         if (block.color == Block.BlockColor.Red)
         {
-            return Vector2.Distance(block.transform.position, redBoxContainer.transform.position);
+            return Vector2.Distance(block.transform.position, _redblockContainer.transform.position);
         }
-        return Vector2.Distance(block.transform.position, blueBoxContainer.transform.position);
+        return Vector2.Distance(block.transform.position, _blueBlockContainer.transform.position);
+    }
+
+    public List<Block> GetBlocks() 
+    {
+        return _blocks; 
     }
 }
 
