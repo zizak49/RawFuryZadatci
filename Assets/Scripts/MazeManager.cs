@@ -25,6 +25,8 @@ public class MazeManager : MonoBehaviour
     [SerializeField] private GameObject _tilePrefab;
     [SerializeField] private Task2UIController _uiController;
 
+    private Pathfinding pathfinding = new Pathfinding();
+
     public int XSize { get => _xSize; set => _xSize = value; }
     public int YSize { get => _ySize; set => _ySize = value; }
     public bool UseDiagonal { get => _useDiagonal; set => _useDiagonal = value; }
@@ -55,7 +57,7 @@ public class MazeManager : MonoBehaviour
 
     public void CalculateMazePath()
     {
-        Pathfinding pathfinding = new Pathfinding();
+        pathfinding.ClearPath();
         pathfinding.FindPath(_startTile, _endTile);
     }
 
@@ -63,13 +65,13 @@ public class MazeManager : MonoBehaviour
     {
         if (placement == TileTypePlacement.Start)
         {
-            if (_startTile == null)
+            if (_startTile != null)
             {
+                _startTile.SetTileColorByType(Tile.TileType.Walkable);
                 _startTile = tile;
                 _startTile.SetTileColorByType(Tile.TileType.Start);
                 return;
             }
-            _startTile.SetTileColorByType(Tile.TileType.Walkable);
             _startTile = tile;
             _startTile.SetTileColorByType(Tile.TileType.Start);
         }
@@ -84,13 +86,13 @@ public class MazeManager : MonoBehaviour
     {
         if (placement == TileTypePlacement.End)
         {
-            if (_endTile == null)
+            if (_endTile != null)
             {
+                _endTile.SetTileColorByType(Tile.TileType.Walkable);
                 _endTile = tile;
                 _endTile.SetTileColorByType(Tile.TileType.End);
                 return;
             }
-            _endTile.SetTileColorByType(Tile.TileType.Walkable);
             _endTile = tile;
             _endTile.SetTileColorByType(Tile.TileType.End);
         }

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Pathfinding : MonoBehaviour
 {
+	public List<Tile> path = new List<Tile>();
+
 	/// <summary>
 	/// Find shorthest path from start to target using A* algorithm.
 	/// </summary>
@@ -59,7 +61,7 @@ public class Pathfinding : MonoBehaviour
 
 	private void RetracePath(Tile startTile, Tile endTile)
 	{
-		List<Tile> path = new List<Tile>();
+		path = new List<Tile>();
 		Tile currentTile = endTile;
 
 		while (currentTile != startTile)
@@ -72,6 +74,16 @@ public class Pathfinding : MonoBehaviour
 
 		path[0].SetTileColorByType(Tile.TileType.Start);
 		path[path.Count - 1].SetTileColorByType(Tile.TileType.End);
+	}
+
+	public void ClearPath() 
+	{
+        foreach (Tile tile in path)
+        {
+			tile.SetTileColorByType(Tile.TileType.Walkable);
+        }
+
+		path.Clear();
 	}
 
 	/// <summary>
