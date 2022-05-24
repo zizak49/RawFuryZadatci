@@ -46,6 +46,6 @@ MonoBehaviour:
   placement: 2
   _xSize: 100
   _ySize: 100
-  _depth: 10000
+  _depth: 25000
   _tilePrefab: {fileID: 7633480205265685261, guid: 6077b21bc14c6fc4ab4b2cce4b3e0a14, type: 3}
   _uiController: {fileID: 0}

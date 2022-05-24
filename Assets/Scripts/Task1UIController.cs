@@ -2,11 +2,8 @@ using UnityEngine;
 
 public class Task1UIController : MonoBehaviour
 {
-
     private static Task1UIController _instance;
     public static Task1UIController Instance { get { return _instance; } }
-
-    [SerializeField] private GameObject exitButton;
 
     private void Awake()
     {
@@ -18,11 +15,6 @@ public class Task1UIController : MonoBehaviour
         {
             _instance = this;
         }
-    }
-
-    public void ShowExitButton() 
-    {
-        exitButton.SetActive(true);
     }
 
     public void OnClickExit()

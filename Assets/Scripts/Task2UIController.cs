@@ -60,4 +60,9 @@ public class Task2UIController : MonoBehaviour
     {
         mazeManager.GenerateMaze();
     }
+
+    public void OnClikcBackButton() 
+    {
+        SceneController.Instance.LoadStartScene();
+    }
 }
