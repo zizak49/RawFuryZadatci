@@ -1,5 +1,5 @@
-
 using UnityEngine;
+
 public abstract class State
 {
     public abstract void EnterState(AIMovement aIMovement);

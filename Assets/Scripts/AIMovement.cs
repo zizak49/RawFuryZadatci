@@ -64,24 +64,24 @@ public class AIMovement : MonoBehaviour
     public void PickUpBox(GameObject block) 
     {
         _carrying = true;
-        CarryBlock = block.GetComponent<Block>();
+        _carryBlock = block.GetComponent<Block>();
 
-        CarryBlock.transform.parent = _blockHolder.transform;        
-        CarryBlock.transform.position = _blockHolder.transform.position;
+        _carryBlock.transform.parent = _blockHolder.transform;
+        _carryBlock.transform.position = _blockHolder.transform.position;
     }
 
     public void DropOffBox() 
     {
         _carrying = false;
-        _blocks.Remove(CarryBlock);
+        _blocks.Remove(_carryBlock);
 
-        CarryBlock.SetCollider(false);
-        CarryBlock.transform.parent = _currentDestionation.transform;
+        _carryBlock.SetCollider(false);
+        _carryBlock.transform.parent = _currentDestionation.transform;
 
-        CarryBlock.transform.position = new Vector2(_currentDestionation.transform.position.x + Random.Range(-0.5f,0.5f),
+        _carryBlock.transform.position = new Vector2(_currentDestionation.transform.position.x + Random.Range(-0.5f,0.5f),
             _currentDestionation.transform.position.y + Random.Range(-0.5f, 0.5f));
 
-        CarryBlock = null;
+        _carryBlock = null;
         CurrentDestionation = null;
     }
 
@@ -105,16 +105,13 @@ public class AIMovement : MonoBehaviour
             {
                 _currentState.OnTriggerEnter(this, other);                
             }
-
         }
     }
 
     private float CalculateDistanceToCon(Block block) 
     {
         if (block.color == Block.BlockColor.Red)
-        {
             return Vector2.Distance(block.transform.position, _redblockContainer.transform.position);
-        }
         return Vector2.Distance(block.transform.position, _blueBlockContainer.transform.position);
     }
 
