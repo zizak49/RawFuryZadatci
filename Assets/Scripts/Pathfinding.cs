@@ -25,7 +25,9 @@ public class Pathfinding : MonoBehaviour
 				if (openSet[i].FCost < currentTile.FCost || openSet[i].FCost == currentTile.FCost)
 				{
 					if (openSet[i].HCost < currentTile.HCost)
+					{
 						currentTile = openSet[i];
+					}
 				}
 			}
 
@@ -52,8 +54,10 @@ public class Pathfinding : MonoBehaviour
 					neighbour.HCost = GetDistance(neighbour, target);
 					neighbour.Parent = currentTile;
 
-					if (!openSet.Contains(neighbour))
-						openSet.Add(neighbour);
+					if (!openSet.Contains(neighbour)) 
+					{
+						openSet.Add(neighbour);					
+					}
 				}
 			}
 		}
@@ -82,7 +86,6 @@ public class Pathfinding : MonoBehaviour
         {
 			tile.SetTileColorByType(Tile.TileType.Walkable);
         }
-
 		path.Clear();
 	}
 

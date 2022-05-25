@@ -8,10 +8,7 @@ public class PickUpState : State
             aIMovement.RedBoxContainer : aIMovement.BlueBoxContainer;
     }
 
-    public override void OnTriggerEnter(AIMovement aIMovement, Collider2D collider2D)
-    {
-
-    }
+    public override void OnTriggerEnter(AIMovement aIMovement, Collider2D collider2D){}
 
     public override void UpdateState(AIMovement aIMovement)
     {

@@ -36,7 +36,7 @@ public class AIMovement : MonoBehaviour
 
     private void Start()
     {
-        _currentState = SearchState;
+        _currentState = _searchState;
         _currentState.EnterState(this);
     }
 
@@ -82,7 +82,7 @@ public class AIMovement : MonoBehaviour
             _currentDestionation.transform.position.y + Random.Range(-0.5f, 0.5f));
 
         _carryBlock = null;
-        CurrentDestionation = null;
+        _currentDestionation = null;
     }
 
     public void Search() 
@@ -97,7 +97,7 @@ public class AIMovement : MonoBehaviour
             Block block = other.GetComponent<Block>();
             if (!_blocks.Contains(block))
             {
-                block.distanceToContainer = CalculateDistanceToCon(block);
+                block.distanceToContainer = CalculateDistanceToContainer(block);
                 _blocks.Add(block);
             }
 
@@ -108,7 +108,7 @@ public class AIMovement : MonoBehaviour
         }
     }
 
-    private float CalculateDistanceToCon(Block block) 
+    private float CalculateDistanceToContainer(Block block) 
     {
         if (block.color == Block.BlockColor.Red)
             return Vector2.Distance(block.transform.position, _redblockContainer.transform.position);

@@ -8,10 +8,7 @@ public class MoveState : State
         aIMovement.CurrentDestionation = FindClosestBlockToCarry(aIMovement.GetBlocks()).gameObject;
     }
 
-    public override void OnTriggerEnter(AIMovement aIMovement, Collider2D collider2D)
-    {
-        
-    }
+    public override void OnTriggerEnter(AIMovement aIMovement, Collider2D collider2D){}
 
     public override void UpdateState(AIMovement aIMovement)
     {

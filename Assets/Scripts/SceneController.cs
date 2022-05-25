@@ -45,11 +45,14 @@ public class SceneController : MonoBehaviour
 
     public void LoadStartScene() 
     {
-        if (GameManager.Instance.currentGameState == GameManager.GameState.Task1)
+        if (GameManager.Instance.currentGameState == GameManager.GameState.Task1) 
+        {
             UnloadScene(TASK1AI);
+        }
         else
+        {
             UnloadScene(TASK2MAZE);
-
+        }
         startCanvas.SetActive(true);
         GameManager.Instance.currentGameState = GameManager.GameState.Start;
     }
@@ -79,7 +82,9 @@ public class SceneController : MonoBehaviour
             sceneHandlesByName.Remove(scene.sceneName);
         }
         else
-            return;
+        { 
+            return; 
+        }
     }
 
     private void SceneUnloadComplited(AsyncOperationHandle<SceneInstance> obj)

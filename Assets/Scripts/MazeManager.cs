@@ -110,12 +110,13 @@ public class MazeManager : MonoBehaviour
     /// <returns></returns>
     private bool IsValidTile(int x, int y) 
     {
-        if (x >= 0 && x < XSize && y >= 0 && y < YSize) 
+        if (x >= 0 && x < XSize && y >= 0 && y < YSize)
+        {
             return true;
+        }
         return false;
     }
     
-    // probaj maknut ifove
     public void GetTileNeighbours(bool removeWalls)
     {
         for (int x = 0; x < XSize; x++)
@@ -182,7 +183,6 @@ public class MazeManager : MonoBehaviour
             start = randTile;
             count++;
         }
-
         GetTileNeighbours(true);
     }
 

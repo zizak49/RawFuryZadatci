@@ -16,7 +16,9 @@ public class SearchState : State
 
     public override void UpdateState(AIMovement aIMovement)
     {
-        if (aIMovement.ReachedDestination())
+        if (aIMovement.ReachedDestination()) 
+        {
             aIMovement.Search();
+        }
     }
 }
